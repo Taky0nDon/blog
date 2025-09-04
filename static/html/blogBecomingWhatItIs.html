@@ -1,0 +1,65 @@
+<h2 class="blog-post-tile">My Blog's Story of Becoming What It Is</h2>
+<article>
+
+    <p> The idea to host my own blog came from a project I did for the Udemy
+    course <i>100 Days of Code</i> by Angela Yu. We built a blog out of Flask
+    and Bootstrap. It was a fun exercise and I learned alot, especially about
+    server side rendering and ORMs. </p>
+
+    <p> Since then I have endeavored to try to dive a little bit deeper by not
+    allowing myself the luxury of using a prebuilt framework like Flask. I also
+    resolved not to rely on a service like Render to handle all the hosting and
+    deployment for me. I had the crazy notion of getting a bare bones VPS and
+    getting to to serve a website with nothing but my terminal and a dream.
+    </p>
+
+    <p> After choosing the right plan, I immediately went about adding a SSH
+    key so I wouldn't have to log in with a password. Feeling pretty good about
+    myself just then, I was horrified to find that I'd forgotten the pass
+    phrase for that key, so I was unable to access the terminal on the server
+    except through the browser and DigitalOcean's website. I don't know about
+    you, but I didn't learn how to use the terminal so I could do it in a
+    browser! This simply would not do. </p>
+
+    <p> After about 2 hours of trying to add and remove keys through the
+    DigitalOcean website, manually editing the `authorized_keys` file, and
+    destroying and rebuilding the droplet, I finally managed to get it set up
+    right so I could connect from my terminal. </p>
+
+    <p> The next step was to create a new user account, one that wasn't root
+    but had sudo privileges so I could use it to maintain the server. This  is
+    a common practice to decrease the chances of unauthorized access to the
+    root user, which would grant complete control of the VPS. This was simple
+    enough, although I once again ran into some issues regarding password
+    authentication and had to delete and recreate the user. </p>
+
+    <p> Having dispensed with basic preparation, I started the fun part. I
+    wanted to host a blog, and to do that I was going to have to expose HTML
+    files to the internet, at the very least. In order to test this out, I used
+    a nifty Python module called `http.server`. With one recital of the
+    incantation: `py -m http.server`, I was able to somewhat alarmingly view
+    the contents of my home folder from the browser. I also got a bit of
+    practice with firewall-cmd in order to make this work. </p>
+
+    <p> I had proved that it was possible for me to render HTML from my server
+    to anyone on the internet. Hooray! The next step was to find a more robust
+    solution than to leave my Python process running. Honestly, I probably
+    would have stuck with that, if they hadn't been so emphatic that it was
+    <b>not</b> a production-ready solution. Okay, fine. So what to do now? I
+    did a little bit of research on simple HTTP servers and decided to go with
+    Nginx. I found it very well documented and got it set up in a matter of
+    minutes. <p>
+
+    <p> So, what's next? Well, the site is still pretty ugly, so I need to make
+    it at least a little bit more presentable. I also want to go with some sort
+    of psuedo-SPA design, where clicking links to different blog posts will
+    only alter one aspect of the DOM and not trigger a full page reload. In
+    order to accomplish this, I am going to create a database (probably using
+    SQLite because I'm familiar with it, and I think it will more than suit my
+    purposes). Then I will use a little JavaScript to hit the database and
+    change the content of the DOM element hosting the article when it is
+    clicked. </p>
+
+    <p> Sounds simple enough, right? Stay tuned for my follow up post exploring
+    the unforeseen obstacles I expect to encounter on this path. </p>
+</article>

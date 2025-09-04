@@ -1,0 +1,12 @@
+.top-heading {
+    display: flex;
+    align: center;
+}
+.nav-menu {
+    display: flex;
+    list-style: none;
+}
+
+.nav-menu-item {
+    padding: 0 10% 0 10%;
+}
