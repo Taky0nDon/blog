@@ -19,8 +19,8 @@ def add_p_html_tags(post_content: str) -> str:
     return processed_content
 
 if __name__ == "__main__":
-    TEMPLATE = Path(argv[1])
-    post = get_post_parts(TEMPLATE)
+    template = Path(argv[1])
+    post = get_post_parts(template)
     final_content = add_p_html_tags(post["content"])
     print(final_content)
     with open("post.json", "w") as output:
