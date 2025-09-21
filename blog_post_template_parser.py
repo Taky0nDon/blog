@@ -21,7 +21,6 @@ def add_p_html_tags(post_content: str) -> str:
 if __name__ == "__main__":
     template = Path(argv[1])
     post = get_post_parts(template)
-    final_content = add_p_html_tags(post["content"])
-    print(final_content)
-    with open("post.json", "w") as output:
+    post["content"] = add_p_html_tags(post["content"])
+    with open(f"{template}.json", "w") as output:
         dump(post, output)
