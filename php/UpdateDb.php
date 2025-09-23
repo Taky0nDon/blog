@@ -1,20 +1,25 @@
 <?php
-$db = new SQLite3('jsontest.db');
-$json_text = file_get_contents("/home/mike/extra-storage/code/blog/posts/json/post1template.json");
-$post_parts = json_decode($json_text, true);
-var_dump($post_parts);
-$title =  $post_parts["title"];
-$author = $post_parts["author"];
-$date = $post_parts["date"];
-$content = $post_parts["content"];
-$db->exec("CREATE  TABLE IF NOT EXISTS post (
-id INTEGER PRIMARY KEY,
-ptitle TEXT NOT NULL,
-pauthor TEXT NOT NULL,
-pdate TEXT NOT NULL,
-pcontent TEXT NOT NUll)"
-);
-$insertSql = $db->prepare('INSERT INTO post(ptitle, pauthor, pdate, pcontent) VALUES(:title,
+function connectToDb($dbPath): SQLite3 {
+    return new SQLite3($dbPath);
+}
+
+function getPostArray($jsonPath){
+    $json_text = file_get_contents($jsonPath);
+    $post_parts = json_decode($json_text, true);
+    return $post_parts;
+}
+
+
+$pathToJson = "/home/mike/extra-storage/code/blog/posts/json/Thoughts on Nietzsche's 'The Birth of Tragedy'.json";
+$post = getPostArray($pathToJson);
+
+$title =  $post["title"];
+$author = $post["author"];
+$date = $post["date"];
+$content = $post["content"];
+
+$db = connectToDb("../data/posts.db");
+$insertSql = $db->prepare('INSERT INTO post(title, author, date, content) VALUES(:title,
                 :author,
                 :date,
                 :content
