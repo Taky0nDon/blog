@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: http://localhost:1337");
+header("Access-Control-Allow-Origin: http://localhost:8181");
 header("Access-Control-Allow-Methods: GET,POST,OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 $post = array(
@@ -15,10 +15,17 @@ $validPostIds = array(
     "Thoughts on The Birth of This Blog"
     );
 
-$request = json_decode(file_get_contents("php://input"), true);
+$request = file_get_contents("php://input");
+if ($request){
+    file_put_contents("php://stdout", "received request: {$request}\n");
+} else {
+    file_put_contents("php://stdout", "received request: null!");
+}
+
+$requestArray = json_decode($request, true);
 $db = new SQLite3("../data/posts.db");
 
-$postTitle = trim($request['id']);
+$postTitle = trim($requestArray['id']);
 file_put_contents("php://stdout", "received: {$postTitle}\n");
 
 if (in_array($postTitle, $validPostIds, true)) {
