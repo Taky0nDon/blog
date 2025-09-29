@@ -18,11 +18,11 @@ $getTitlesSql = "SELECT title FROM post";
 $getTitlesResult = $db->prepare($getTitlesSql)->execute();
 $validTitles = $getTitlesResult->fetchArray(SQLITE3_NUM);
 
-$i = 0;
-foreach ($validTitles as $escapedValidTitle) {
-    $validTitles[0] = $escapedValidTitle;
-    $i++;
-}
+#$i = 0;
+#foreach ($validTitles as $escapedValidTitle) {
+#    $validTitles[0] = $escapedValidTitle;
+#    $i++;
+#}
 
 $request = file_get_contents("php://input");
 
@@ -32,7 +32,7 @@ if (!$request) {
 }
 
 $requestArray = json_decode($request, true);
-$postTitle = $db->escapeString(trim($requestArray['id']));
+$postTitle = trim($requestArray['id']);
 
 if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
     echo json_encode([
