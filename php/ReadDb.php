@@ -18,6 +18,12 @@ $getTitlesSql = "SELECT title FROM post";
 $getTitlesResult = $db->prepare($getTitlesSql)->execute();
 $validTitles = $getTitlesResult->fetchArray(SQLITE3_NUM);
 
+$i = 0;
+foreach ($validTitles as $escapedValidTitle) {
+    $validTitles[0] = $escapedValidTitle;
+    $i++;
+}
+
 $request = file_get_contents("php://input");
 
 if (!$request) {
