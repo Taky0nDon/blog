@@ -29,7 +29,7 @@ $requestArray = json_decode($request, true);
 $postTitle = trim($requestArray['id']);
 
 if (!in_array($postTitle, $validTitles, false)) {
-    echo '{"status": "400", "error": "No post exists in database with title ${postTitle}!"}';
+    echo '{"status": "400", "error": "No post exists in database with title'.$postTitle.'!"}';
     exit;
 }
 
@@ -40,7 +40,7 @@ error_log("Searching d for ${postTitle}");
 $res = $statementGetPost->execute();
 
 if (!$res) {
-    echo "{'error':'500', 'message':'No post found with id {$postTitle}'}";
+    echo '{"error":"500", "message":"No post found with id '.$postTitle.'"}';
     exit;
 } 
 
