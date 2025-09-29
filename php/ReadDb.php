@@ -28,7 +28,7 @@ if (!$request) {
 $requestArray = json_decode($request, true);
 $postTitle = $db->escapeString(trim($requestArray['id']));
 
-if (!in_array($postTitle, $validTitles, false)) {
+if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
     echo json_encode([
         "status" => "400",
         "error" => "${postTitle} does not exist."
