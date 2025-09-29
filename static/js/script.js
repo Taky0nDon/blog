@@ -4,7 +4,7 @@ const displayPost = (b) => {
     fetch(urlToQueryPhp, {
         method: "POST",
         headers: { "Content-Type": "application/json", },
-        body: JSON.stringify({ id: postTitle })
+        body: JSON.stringify({ title: postTitle })
     }).
         then(response => response.json()).
         then(data => updatePost(data));
