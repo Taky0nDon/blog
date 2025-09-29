@@ -1,4 +1,11 @@
 <?php
+function removeUnsavoryCharacters(string $str): string {
+    $charsToReplace = array([
+        "'",
+        '"'
+    ]);
+    str_replace($charsToReplace, "", $str);
+}
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: GET,POST,OPTIONS");
@@ -18,12 +25,6 @@ $getTitlesSql = "SELECT title FROM post";
 $getTitlesResult = $db->prepare($getTitlesSql)->execute();
 $validTitles = $getTitlesResult->fetchArray(SQLITE3_NUM);
 
-#$i = 0;
-#foreach ($validTitles as $escapedValidTitle) {
-#    $validTitles[0] = $escapedValidTitle;
-#    $i++;
-#}
-
 $request = file_get_contents("php://input");
 
 if (!$request) {
@@ -32,7 +33,7 @@ if (!$request) {
 }
 
 $requestArray = json_decode($request, true);
-$postTitle = trim($requestArray['id']);
+$postTitle = removeUnsavoryCharacters(trim($requestArray['title']));
 
 if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
     echo json_encode([
