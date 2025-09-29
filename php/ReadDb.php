@@ -20,7 +20,7 @@ $validTitles = $getTitlesResult->fetchArray(SQLITE3_NUM);
 
 $request = file_get_contents("php://input");
 
-if (!request) {
+if (!$request) {
     echo '{"status": "400", "error": "Request body is empty!"}';
     exit;
 }
