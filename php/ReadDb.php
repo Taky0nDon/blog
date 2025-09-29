@@ -26,21 +26,26 @@ if (!$request) {
 }
 
 $requestArray = json_decode($request, true);
-$postTitle = trim($requestArray['id']);
+$postTitle = SQLite3->escapeString(trim($requestArray['id']));
 
 if (!in_array($postTitle, $validTitles, false)) {
-    echo '{"status": "400", "error": "No post exists in database with title'.$postTitle.'!"}';
+    echo json_encode([
+        "status" => "400",
+        "error" => "${postTitle} does not exist."
+    ]);
     exit;
 }
 
 $statementGetPost = $db->prepare("SELECT * FROM post where title=:postid");
 $statementGetPost->bindParam(":postid", $postTitle);
-error_log("Searching d for ${postTitle}");
 
 $res = $statementGetPost->execute();
 
 if (!$res) {
-    echo '{"error":"500", "message":"No post found with id '.$postTitle.'"}';
+    echo json_encode([
+        "error"=>"500",
+        "message"=>"No post found with id ${postTitle}."
+    ]);
     exit;
 } 
 
