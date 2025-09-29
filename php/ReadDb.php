@@ -1,6 +1,6 @@
 <?php
 function _log($message) {
-    file_put_contents("php://stdout", "${message}\n");
+    file_put_contents("php.log", date(DATE_ATOM, time()).": ${message}\n");
 }
 
 header("Content-Type: application/json");
@@ -18,53 +18,40 @@ $post = array(
 $db = new SQLite3("../data/posts.db");
 $getTitlesSql = "SELECT title FROM post";
 $getTitlesResult = $db->prepare($getTitlesSql)->execute();
-$titlesArray = $getTitlesResult->fetchArray(SQLITE3_NUM);
-var_dump($titlesArray);
+$validTitles = $getTitlesResult->fetchArray(SQLITE3_NUM);
+_log(join(", ", $validTitles));
 
-$validPostIds = array(
-    'Thoughts on Nietzsche\'s "The Birth of Tragedy"',
-    "Thoughts on The Birth of This Blog"
-    );
-
-if (in_array($validPostIds[0], $titlesArray, false)) {
-    echo "found it";
-} else {
-    echo "didnt find it.";
-}
-var_dump($validPostIds);
 $request = file_get_contents("php://input");
+
 if ($request){
-    file_put_contents("php://stdout", "received request: {$request}\n");
+    _log("received request: {$request}\n");
 } else {
-    file_put_contents("php://stdout", "received request: null!");
+    _log("received request: null!");
 }
 
 $requestArray = json_decode($request, true);
-
 $postTitle = trim($requestArray['id']);
 _log("Title: ${postTitle}");
-_log(implode("::", $validPostIds));
+_log(implode("::", $validTitles));
 
-/*
-if (!in_array($postTitle, $validPostIds, true)) {
-    echo '{"error": "Invalid post title."}';
+if (!in_array($postTitle, $validTitles, false)) {
+    echo '{"status": "500", "error": "Invalid post title."}';
     exit;
 }
-*/
 
-$statement = $db->prepare("SELECT * FROM post where title=:postid");
-$statement->bindParam(":postid", $postTitle);
+$statementGetPost = $db->prepare("SELECT * FROM post where title=:postid");
+$statementGetPost->bindParam(":postid", $postTitle);
 
-file_put_contents('php://stdout', "{$statement->getSQL($expand=true)}\n");
-$res = $statement->execute();
+file_put_contents('php://stdout', "{$statementGetPost->getSQL($expand=true)}\n");
+$res = $statementGetPost->execute();
 
 if (!$res) {
-    echo "{'error':'500', 'message':'No post found with id {$postid}'}";
+    echo "{'error':'500', 'message':'No post found with id {$postTitle}'}";
     exit;
 } 
 
 $post = $res->fetchArray(SQLITE3_ASSOC);
 $postJson = json_encode($post);
-file_put_contents("php://stdout", "json: $postJson\n");
+_log("json: $postJson\n");
 echo($postJson);
 ?>
