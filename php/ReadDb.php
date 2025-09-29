@@ -33,7 +33,7 @@ $request = file_get_contents("php://input");
 
 if (!$request) {
     echo '{"status": "400", "error": "Request body is empty!"}';
-    http_response_code(400);
+    echo http_response_code(400);
     exit;
 }
 
@@ -45,7 +45,7 @@ if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
         "status" => "400",
         "error" => "${postTitle} does not match any of".implode(", ", $validTitles)
     ]);
-    http_response_code(400);
+    echo http_response_code(400);
     exit;
 }
 
