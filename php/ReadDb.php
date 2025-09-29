@@ -11,6 +11,7 @@ header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: GET,POST,OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
+$validTitles = array();
 $post = array(
             "title" => "",
             "author" => "",
@@ -23,7 +24,11 @@ $db = new SQLite3($dbPath);
 error_log("Db path: ${dbPath}\n");
 $getTitlesSql = "SELECT title FROM post";
 $getTitlesResult = $db->prepare($getTitlesSql)->execute();
-$validTitles = $getTitlesResult->fetchArray(SQLITE3_NUM);
+$i = 0;
+foreach ($getTitlesResult as $row) {
+    $validTitles[$i] = $row->fetchArray(SQLITE3_NUM);
+    $i++;
+}
 
 $request = file_get_contents("php://input");
 
@@ -43,12 +48,12 @@ if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
     exit;
 }
 
-$statementGetPost = $db->prepare('SELECT * FROM post where title=":postid"');
+$statementGetPost = $db->prepare("SELECT * FROM post where title=':postid'");
 $statementGetPost->bindParam(":postid", $postTitle);
 
-$res = $statementGetPost->execute();
+$postResult = $statementGetPost->execute();
 
-if (!$res) {
+if (!$postResult) {
     echo json_encode([
         "error"=>"500",
         "message"=>"No post found with id ${postTitle}."
@@ -56,7 +61,7 @@ if (!$res) {
     exit;
 } 
 
-$post = $res->fetchArray(SQLITE3_ASSOC);
+$post = $postResult->fetchArray(SQLITE3_NUM);
 $postJson = json_encode($post);
 echo($postJson);
 ?>
