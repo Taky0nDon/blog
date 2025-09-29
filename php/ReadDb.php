@@ -5,7 +5,7 @@ header("Access-Control-Allow-Origin: writethyself.net");
 header("Access-Control-Allow-Methods: GET,POST,OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-echo "hello";
+$stderr = fopen("php://stderr", "w");
 $post = array(
             "title" => "",
             "author" => "",
@@ -13,6 +13,7 @@ $post = array(
             "content" => "",
 );
 $SQLITE3_DIR = getenv("SQLITE_DIR")."/data/posts.db";
+fwrite($stderr, $SQLITE3_DIR);
 $db = new SQLite3($SQLITE3_DIR);
 $getTitlesSql = "SELECT title FROM post";
 $getTitlesResult = $db->prepare($getTitlesSql)->execute();
