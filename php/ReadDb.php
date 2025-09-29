@@ -4,7 +4,7 @@ function removeUnsavoryCharacters(string $str): string {
         "'",
         '"'
     ]);
-    str_replace($charsToReplace, "", $str);
+    return str_replace($charsToReplace, "", $str);
 }
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: http://localhost:3000");
