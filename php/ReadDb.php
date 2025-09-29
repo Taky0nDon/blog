@@ -43,6 +43,7 @@ if (!in_array($postTitle, $validTitles, false)) {
 
 $statementGetPost = $db->prepare("SELECT * FROM post where title=:postid");
 $statementGetPost->bindParam(":postid", $postTitle);
+error_log("Searching d for ${postTitle}");
 
 file_put_contents('php://stdout', "{$statementGetPost->getSQL($expand=true)}\n");
 $res = $statementGetPost->execute();
