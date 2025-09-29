@@ -8,14 +8,16 @@ header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: GET,POST,OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
+_log("File accessed");
+echo "hello";
 $post = array(
             "title" => "",
             "author" => "",
             "date" => "",
             "content" => "",
 );
-
-$db = new SQLite3("data/posts.db");
+$SQLITE3_DIR = getenv("SQLITE_DIR")."/data/posts.db";
+$db = new SQLite3(SQLITE3_DIR);
 $getTitlesSql = "SELECT title FROM post";
 $getTitlesResult = $db->prepare($getTitlesSql)->execute();
 $validTitles = $getTitlesResult->fetchArray(SQLITE3_NUM);
