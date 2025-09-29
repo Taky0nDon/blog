@@ -1,11 +1,12 @@
 <?php
+function _log($message) {
+    file_put_contents("php://stdout", "${message}\n");
+}
+
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: GET,POST,OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
-function _log($message) {
-    file_put_contents("php://stdout", "${message}\n");
-}
 
 $post = array(
             "title" => "",
@@ -14,11 +15,23 @@ $post = array(
             "content" => "",
 );
 
+$db = new SQLite3("../data/posts.db");
+$getTitlesSql = "SELECT title FROM post";
+$getTitlesResult = $db->prepare($getTitlesSql)->execute();
+$titlesArray = $getTitlesResult->fetchArray(SQLITE3_NUM);
+var_dump($titlesArray);
+
 $validPostIds = array(
-    "Thoughts on Nietzsche's 'The Birth of Tragedy'",
+    'Thoughts on Nietzsche\'s "The Birth of Tragedy"',
     "Thoughts on The Birth of This Blog"
     );
 
+if (in_array($validPostIds[0], $titlesArray, false)) {
+    echo "found it";
+} else {
+    echo "didnt find it.";
+}
+var_dump($validPostIds);
 $request = file_get_contents("php://input");
 if ($request){
     file_put_contents("php://stdout", "received request: {$request}\n");
@@ -27,7 +40,6 @@ if ($request){
 }
 
 $requestArray = json_decode($request, true);
-$db = new SQLite3("../data/posts.db");
 
 $postTitle = trim($requestArray['id']);
 _log("Title: ${postTitle}");
