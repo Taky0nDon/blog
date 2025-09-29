@@ -21,19 +21,19 @@ $post = array(
 
 $dbPath = getenv("SQLITE_DIR")."posts.db";
 $db = new SQLite3($dbPath);
-error_log("Db path: ${dbPath}\n");
 $getTitlesSql = "SELECT title FROM post";
 $getTitlesResult = $db->prepare($getTitlesSql)->execute();
-$i = 0;
-foreach ($getTitlesResult as $row) {
-    $validTitles[$i] = $row->fetchArray(SQLITE3_NUM);
-    $i++;
+$validTitlesIdx = 0;
+while ($row = $getTitlesResult->fetchArray(SQLITE3_NUM)) {
+    $validTitles[$validTitlesIdx] = $row;
+    $validTitlesIdx++;
 }
 
 $request = file_get_contents("php://input");
 
 if (!$request) {
     echo '{"status": "400", "error": "Request body is empty!"}';
+    http_response_code(400);
     exit;
 }
 
@@ -45,6 +45,7 @@ if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
         "status" => "400",
         "error" => "${postTitle} does not match any of".implode(", ", $validTitles)
     ]);
+    http_response_code(400);
     exit;
 }
 
@@ -58,6 +59,7 @@ if (!$postResult) {
         "error"=>"500",
         "message"=>"No post found with id ${postTitle}."
     ]);
+    http_response_code(500);
     exit;
 } 
 
