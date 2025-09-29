@@ -17,7 +17,7 @@ $post = array(
             "content" => "",
 );
 $SQLITE3_DIR = getenv("SQLITE_DIR")."/data/posts.db";
-$db = new SQLite3(SQLITE3_DIR);
+$db = new SQLite3($SQLITE3_DIR);
 $getTitlesSql = "SELECT title FROM post";
 $getTitlesResult = $db->prepare($getTitlesSql)->execute();
 $validTitles = $getTitlesResult->fetchArray(SQLITE3_NUM);
