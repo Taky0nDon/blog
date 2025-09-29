@@ -25,7 +25,7 @@ $getTitlesSql = "SELECT title FROM post";
 $getTitlesResult = $db->prepare($getTitlesSql)->execute();
 $validTitlesIdx = 0;
 while ($row = $getTitlesResult->fetchArray(SQLITE3_NUM)) {
-    $validTitles[$validTitlesIdx] = $row;
+    $validTitles[$validTitlesIdx] = $row[0];
     $validTitlesIdx++;
 }
 
@@ -38,7 +38,7 @@ if (!$request) {
 }
 
 $requestArray = json_decode($request, true);
-$postTitle = removeUnsavoryCharacters(trim($requestArray['title']));
+$postTitle = removeUnsavoryCharacters(trim($requestArray["title"]));
 
 if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
     echo json_encode([
@@ -49,8 +49,8 @@ if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
     exit;
 }
 
-$statementGetPost = $db->prepare("SELECT * FROM post where title=':postid'");
-$statementGetPost->bindParam(":postid", $postTitle);
+$statementGetPost = $db->prepare("SELECT * FROM post where title=':postTitle'");
+$statementGetPost->bindParam(":postTitle", $postTitle);
 
 $postResult = $statementGetPost->execute();
 
