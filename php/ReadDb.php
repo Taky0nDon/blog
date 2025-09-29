@@ -1,14 +1,10 @@
 <?php
-function _log($message) {
-    file_put_contents("php.log", date(DATE_ATOM, time()).": ${message}\n");
-}
 
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: writethyself.net");
 header("Access-Control-Allow-Methods: GET,POST,OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-_log("File accessed");
 echo "hello";
 $post = array(
             "title" => "",
@@ -21,20 +17,11 @@ $db = new SQLite3($SQLITE3_DIR);
 $getTitlesSql = "SELECT title FROM post";
 $getTitlesResult = $db->prepare($getTitlesSql)->execute();
 $validTitles = $getTitlesResult->fetchArray(SQLITE3_NUM);
-_log(join(", ", $validTitles));
 
 $request = file_get_contents("php://input");
 
-if ($request){
-    _log("received request: {$request}\n");
-} else {
-    _log("received request: null!");
-}
-
 $requestArray = json_decode($request, true);
 $postTitle = trim($requestArray['id']);
-_log("Title: ${postTitle}");
-_log(implode("::", $validTitles));
 
 if (!in_array($postTitle, $validTitles, false)) {
     echo '{"status": "500", "error": "Invalid post title."}';
@@ -54,6 +41,5 @@ if (!$res) {
 
 $post = $res->fetchArray(SQLITE3_ASSOC);
 $postJson = json_encode($post);
-_log("json: $postJson\n");
 echo($postJson);
 ?>
