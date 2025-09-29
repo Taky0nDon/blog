@@ -37,7 +37,7 @@ $postTitle = $db->escapeString(trim($requestArray['id']));
 if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
     echo json_encode([
         "status" => "400",
-        "error" => "${postTitle} does not exist."
+        "error" => "${postTitle} does not match any of".implode(", ", $validTitles)
     ]);
     exit;
 }
