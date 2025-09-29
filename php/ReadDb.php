@@ -1,9 +1,6 @@
 <?php
 function removeUnsavoryCharacters(string $str): string {
-    $charsToReplace = array([
-        "'",
-        '"'
-    ]);
+    $charsToReplace = ["'", '"'];
     return str_replace($charsToReplace, "", $str);
 }
 header("Content-Type: application/json");
