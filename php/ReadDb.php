@@ -26,7 +26,7 @@ if (!$request) {
 }
 
 $requestArray = json_decode($request, true);
-$postTitle = SQLite3->escapeString(trim($requestArray['id']));
+$postTitle = $db->escapeString(trim($requestArray['id']));
 
 if (!in_array($postTitle, $validTitles, false)) {
     echo json_encode([
