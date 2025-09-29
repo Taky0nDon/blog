@@ -36,7 +36,7 @@ if (!in_array($postTitle, $validTitles, false)) {
     exit;
 }
 
-$statementGetPost = $db->prepare("SELECT * FROM post where title=:postid");
+$statementGetPost = $db->prepare('SELECT * FROM post where title=":postid"');
 $statementGetPost->bindParam(":postid", $postTitle);
 
 $res = $statementGetPost->execute();
