@@ -12,7 +12,7 @@ $post = array(
             "date" => "",
             "content" => "",
 );
-$SQLITE3_DIR = getenv("SQLITE_DIR")."/data/posts.db";
+$SQLITE3_DIR = getenv("SQLITE_DIR")."/posts.db";
 error_log("Trying to access db at: $SQLITE3_DIR", 0);
 $db = new SQLite3($SQLITE3_DIR);
 $getTitlesSql = "SELECT title FROM post";
