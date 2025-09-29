@@ -1,8 +1,12 @@
 <?php
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: http://localhost:8181");
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: GET,POST,OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+function _log($message) {
+    file_put_contents("php://stdout", "${message}\n");
+}
+
 $post = array(
             "title" => "",
             "author" => "",
@@ -26,12 +30,15 @@ $requestArray = json_decode($request, true);
 $db = new SQLite3("../data/posts.db");
 
 $postTitle = trim($requestArray['id']);
-file_put_contents("php://stdout", "received: {$postTitle}\n");
+_log("Title: ${postTitle}");
+_log(implode("::", $validPostIds));
 
-if (in_array($postTitle, $validPostIds, true)) {
+/*
+if (!in_array($postTitle, $validPostIds, true)) {
     echo '{"error": "Invalid post title."}';
     exit;
 }
+*/
 
 $statement = $db->prepare("SELECT * FROM post where title=:postid");
 $statement->bindParam(":postid", $postTitle);

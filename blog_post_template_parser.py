@@ -15,7 +15,7 @@ def process_content(content: str) -> list[str]:
     """Removes new lines from raw text. Returns a list of paragraphs."""
     paragraphs = content.split("\n\n")
     for paragraph in paragraphs:
-        paragraph = paragraph.replace("\n", "")
+        paragraph = paragraph.strip()
     return paragraphs
 
 def add_p_html_tags(paragraph_list: list[str]) -> str:

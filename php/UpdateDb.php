@@ -1,6 +1,6 @@
 <?php
 function connectToDb($dbPath): SQLite3 {
-    return new SQLite3($dbPath);
+    return new SQLite3($dbPath, SQLITE3_OPEN_READWRITE);
 }
 
 function getPostArray($jsonPath){
@@ -10,7 +10,8 @@ function getPostArray($jsonPath){
 }
 
 
-$pathToJson = "/home/mike/extra-storage/code/blog/posts/json/Thoughts on Nietzsche's 'The Birth of Tragedy'.json";
+$rootDir = "/home/mike/extra-storage/code/blog/";
+$pathToJson = "/home/mike/extra-storage/code/blog/posts/json/My Blog's Story of Becoming What It Is.json";
 $post = getPostArray($pathToJson);
 
 $title =  $post["title"];
@@ -18,7 +19,7 @@ $author = $post["author"];
 $date = $post["date"];
 $content = $post["content"];
 
-$db = connectToDb("../data/posts.db");
+$db = connectToDb("${rootDir}/data/posts.db");
 $insertSql = $db->prepare('INSERT INTO post(title, author, date, content) VALUES(:title,
                 :author,
                 :date,

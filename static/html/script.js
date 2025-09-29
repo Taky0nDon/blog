@@ -1,24 +1,36 @@
-const getTitle = (b) => {
-    console.log(typeof(b));
-    const urlToQueryPhp = "http://localhost:8181/php/ReadDb.php";
+const displayPost = (b) => {
+    const urlToQueryPhp = "http://localhost:3000/php/ReadDb.php";
     const postTitle = b.target.innerHTML;
-    const postData = fetch(urlToQueryPhp, {
+    fetch(urlToQueryPhp, {
         method: "POST",
         headers: { "Content-Type": "application/json", },
         body: JSON.stringify({ id: postTitle })
     }).
         then(response => response.json()).
-        then(data => console.log(data));
-    console.log(postData);
+        then(data => updatePost(data));
 }
 
-const postDiv = document.getElementById("postDisplay");
-const titleDiv = document.getElementById("postTitle");
-const dateDiv = document.getElementById("postDate");
-const articleText = document.getElementById("postContent");
- 
-const buttons = document.querySelectorAll(".blogPostButton");
+const updatePost = (postData) => {
+    const postObject = {
+        title: document.getElementById("postTitle"),
+        author: document.getElementById("postAuthor"),
+        date: document.getElementById("postDate"),
+        content: document.getElementById("postContent")
+    }
+    postObject.title.innerText = postData.title;
+    postObject.date.innerText = postData.date;
+    postObject.content.innerHTML = postData.content;
+}
 
-for (const button of buttons){
-    button.addEventListener("click", getTitle);
+
+// Make buttons a class with update option? Or just make it an object?
+const buttons = {
+    current: document.querySelectorAll(".blogPostButton"),
+    update() {
+        this.current = document.querySelectorAll(".blogPostButton")
+    },
+}
+
+for (const button of buttons.current) {
+    button.addEventListener("click", displayPost);
 }
