@@ -20,11 +20,16 @@ $validTitles = $getTitlesResult->fetchArray(SQLITE3_NUM);
 
 $request = file_get_contents("php://input");
 
+if (!request) {
+    echo '{"status": "400", "error": "Request body is empty!"}';
+    exit;
+}
+
 $requestArray = json_decode($request, true);
 $postTitle = trim($requestArray['id']);
 
 if (!in_array($postTitle, $validTitles, false)) {
-    echo '{"status": "500", "error": "No post exists in database with title ${postTitle}!"}';
+    echo '{"status": "400", "error": "No post exists in database with title ${postTitle}!"}';
     exit;
 }
 
