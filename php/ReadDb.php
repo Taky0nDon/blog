@@ -63,5 +63,4 @@ if (!$postResult) {
 $post = $postResult->fetchArray(SQLITE3_NUM);
 $postJson = json_encode($post[0]);
 echo($postJson);
-echo "The end";
 ?>
