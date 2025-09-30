@@ -37,7 +37,6 @@ if (!$request) {
 
 $requestArray = json_decode($request, true);
 $postTitle = removeUnsavoryCharacters(trim($requestArray["title"]));
-error_log("checking for ${postTitle} in database...");
 if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
     echo json_encode([
         "status" => "400",
@@ -47,9 +46,10 @@ if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
     exit;
 }
 
-$statementGetPost = $db->prepare("SELECT * FROM post where title=':postTitle'");
+$statementGetPost = $db->prepare("SELECT * FROM post where title=:postTitle");
 $statementGetPost->bindParam(":postTitle", $postTitle);
 $rawGetPostSql = $statementGetPost->getSQL(true);
+error_log("checking for ${postTitle} in database...");
 error_log($rawGetPostSql);
 
 $postResult = $statementGetPost->execute();
