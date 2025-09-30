@@ -26,6 +26,7 @@ while ($row = $getTitlesResult->fetchArray(SQLITE3_NUM)) {
     $validTitlesIdx++;
 }
 
+error_log(implode(", ", $validTitles));
 $request = file_get_contents("php://input");
 
 if (!$request) {
@@ -48,6 +49,8 @@ if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
 
 $statementGetPost = $db->prepare("SELECT * FROM post where title=':postTitle'");
 $statementGetPost->bindParam(":postTitle", $postTitle);
+$rawGetPostSql = $statementGetPost->getSQL(true);
+error_log($rawGetPostSql);
 
 $postResult = $statementGetPost->execute();
 
