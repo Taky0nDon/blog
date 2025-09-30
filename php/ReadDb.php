@@ -36,7 +36,7 @@ if (!$request) {
 
 $requestArray = json_decode($request, true);
 $postTitle = removeUnsavoryCharacters(trim($requestArray["title"]));
-
+error_log("checking for ${postTitle} in database...");
 if (!in_array($db->escapeString($postTitle), $validTitles, false)) {
     echo json_encode([
         "status" => "400",
@@ -63,4 +63,5 @@ if (!$postResult) {
 $post = $postResult->fetchArray(SQLITE3_NUM);
 $postJson = json_encode($post);
 echo($postJson);
+echo "The end";
 ?>
