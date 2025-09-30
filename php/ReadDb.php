@@ -63,7 +63,7 @@ if (!$postResult) {
     exit;
 } 
 
-$post = $postResult->fetchArray(SQLITE3_NUM);
-$postJson = json_encode($post[0]);
+$post = $postResult->fetchArray(SQLITE3_ASSOC);
+$postJson = json_encode($post);
 echo($postJson);
 ?>
