@@ -30,9 +30,7 @@
 
 .list-and-post-container {
     display: flex;
-    grid-row-start: 2; 
-    grid-column-start: 2;
-    grid-column-end: 4;
+    margin-right: 25%;
 }
 
 
@@ -42,9 +40,11 @@
      flex: 1;
  }
 
+
 .selected-post {
     display: grid;
     flex: 2.5;
+    width: 50rem;
 }
 
 .blog-post-title {
