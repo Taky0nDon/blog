@@ -1,5 +1,5 @@
 const displayPost = (b) => {
-    const urlToQueryPhp = "https://writethyself.net/ReadDb.php";
+    const urlToQueryPhp = "http://localhost:3000/ReadDb.php";
     const postTitle = b.target.innerHTML;
     fetch(urlToQueryPhp, {
         method: "POST",
