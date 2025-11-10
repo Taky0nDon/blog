@@ -75,6 +75,5 @@ if (!$postResult) {
 
 $post = $postResult->fetchArray(SQLITE3_ASSOC);
 $postJson = json_encode($post);
-echo("you fuckd up");
 echo($postJson);
 ?>
