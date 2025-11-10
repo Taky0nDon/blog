@@ -14,7 +14,6 @@ if (in_array($_SERVER["HTTP_ORIGIN"], $allowed_origins)){
 header("Access-Control-Allow-Methods: GET,POST,OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-echo "you made it past the headers";
 $validTitles = array();
 $post = array(
             "title" => "",
@@ -24,12 +23,9 @@ $post = array(
 );
 
 $dbPath = getenv("SQLITE_DIR")."/posts.db";
-echo var_dump($dbPath);
 $db = new SQLite3($dbPath);
-echo "you initialized the db";
 $getTitlesSql = "SELECT title FROM post";
 $getTitlesResult = $db->prepare($getTitlesSql)->execute();
-echo "you prepared the query";
 $validTitlesIdx = 0;
 while ($row = $getTitlesResult->fetchArray(SQLITE3_NUM)) {
     $validTitles[$validTitlesIdx] = $row[0];
