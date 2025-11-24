@@ -1,0 +1,55 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="Mike Maggio" content="blog"/>
+        <title>Write Thyself</title>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+    </head>
+
+    <body>
+        <div class="menu-container">
+            <header class="header">
+            <div class="top-heading">
+                <h1>Write Thyself</h1>
+            </div>
+                <nav>
+                    <ul class="nav-menu">
+                        <button class="nav-menu-item"><a href="index.html">Home</a></li>
+                        <button class="nav-menu-item"><a href="about.html">About</a></li>
+                        <button class="nav-menu-item"><a href="contact.html">Contact</a></li>
+                        <button class="nav-menu-item"><a href="links.html">Links</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+            <div class="page-container">
+                <form action="/blog/add" method="post" class="">
+                    <div class="form-row">
+                        <div class="col-25">
+                            <label for="title">Post Title: </label>
+                        </div>
+                        <div class="col-75">
+                            <input class="form-input" type="text" name="title" id="title" required />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-25">
+                            <label for="content">Post Content: </label>
+                        </div>
+                        <div class="col-75">
+                            <textarea cols="100" class="form-input" type="text" name="content" id="content" required />
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div>
+                            <input type="submit" value="Add Post" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
